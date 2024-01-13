@@ -2,7 +2,7 @@
 /*
  * $Id: PCANBasic.java 12274 2021-08-30 12:20:04Z Fabrice $
  * @LastChange $Date: 2021-08-30 14:20:04 +0200 (Mon, 30 Aug 2021) $
- * 
+ *
  * PCANBasic JAVA Interface.
  *
  * Copyright (C) 2001-2021  PEAK System-Technik GmbH <www.peak-system.com>
@@ -156,7 +156,7 @@ public class PCANBasic {
      */
     public native TPCANStatus Reset(
             TPCANHandle Channel);
-    
+
     /**
      * Gets the current status of a PCAN Channel
      *
@@ -165,7 +165,7 @@ public class PCANBasic {
      */
     public native TPCANStatus GetStatus(
             TPCANHandle Channel);
-    
+
     /**
      * Transmits a CAN message
      *
@@ -180,7 +180,7 @@ public class PCANBasic {
             TPCANHandle Channel,
             TPCANMsg MessageBuffer,
             TPCANTimestamp TimestampBuffer);
-    
+
     /**
      * Reads a CAN message from the receive queue of a FD capable PCAN Channel
      *
@@ -195,7 +195,7 @@ public class PCANBasic {
             TPCANHandle Channel,
             TPCANMsgFD MessageBuffer,
             TPCANTimestampFD TimestampBuffer);
-    
+
     /**
      * Transmits a CAN message
      *
@@ -206,7 +206,7 @@ public class PCANBasic {
     public native TPCANStatus Write(
             TPCANHandle Channel,
             TPCANMsg MessageBuffer);
-    
+
     /**
      * Transmits a CAN message over a FD capable PCAN Channel
      *
@@ -217,7 +217,7 @@ public class PCANBasic {
     public native TPCANStatus WriteFD(
             TPCANHandle Channel,
             TPCANMsgFD MessageBuffer);
-    
+
     /**
      * Configures the reception filter. The message filter will be expanded with
      * every call to this function. If it is desired to reset the filter, please
@@ -235,7 +235,7 @@ public class PCANBasic {
             int FromID,
             int ToID,
             TPCANMode Mode);
-    
+
     /**
      * Retrieves a PCAN Channel value Parameters can be present or not according
      * with the kind of Hardware (PCAN Channel) being used. If a parameter is
@@ -252,7 +252,7 @@ public class PCANBasic {
             TPCANParameter Parameter,
             Object Buffer,
             int BufferLength);
-    
+
     /**
      * Configures or sets a PCAN Channel value Parameters can be present or not
      * according with the kind of Hardware (PCAN Channel) being used. If a
@@ -296,7 +296,7 @@ public class PCANBasic {
      * @return A TPCANStatus error code
      */
     public native TPCANStatus LookUpChannel(
-    		StringBuffer Parameters, 
+    		StringBuffer Parameters,
     	    MutableTPCANHandle FoundChannel);
 
     /**
@@ -325,11 +325,13 @@ public class PCANBasic {
     public native boolean initializeAPI();
 
     static {
-        try {
-            System.loadLibrary("pcanbasic_jni");
-        } catch (UnsatisfiedLinkError e) {
-            System.out.println(e.getMessage());
-            System.loadLibrary("PCANBasic_JNI");
+        if (HackLoadLibraryFlag.LOAD_LIBRARY) {
+            try {
+                System.loadLibrary("pcanbasic_jni");
+            } catch (UnsatisfiedLinkError e) {
+                System.out.println(e.getMessage());
+                System.loadLibrary("PCANBasic_JNI");
+            }
         }
     }
 }
